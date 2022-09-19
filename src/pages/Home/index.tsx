@@ -39,7 +39,7 @@ export function Home() {
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
 
   useEffect(() => {
-    let interval: any
+    let interval: number
 
     if (activeCycle) {
       interval = setInterval(() => {
