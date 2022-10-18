@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { differenceInSeconds } from 'date-fns'
 import { CountdownContainer, Separator } from "./styles";
+import { CyclesContext } from "../../../../contexts/CyclesContext";
 
 
 export function Countdown() {
+    const { activeCycle, activeCycleId, setCurrentCycleAsFinished, totalSecondsPassed, setSecondsPassed } = useContext(CyclesContext)
 
-    const [totalSecondsPassed, setTotalSecondsPassed] = useState(0)
 
     const totalSeconds = activeCycle ? activeCycle.minutesDuration * 60 : 0
 
@@ -18,19 +19,12 @@ export function Countdown() {
                     new Date(),
                     new Date(activeCycle.startDate)
                 )
-
                 if (secondsDifference >= totalSeconds) {
-                    setCycles((state) => state.map(cycle => {
-                        if (cycle.id === activeCycleId) {
-                            return { ...cycle, finishedDate: new Date() }
-                        } else {
-                            return cycle
-                        }
-                    }))
-                    setTotalSecondsPassed(totalSeconds)
+                    setCurrentCycleAsFinished()
+                    setSecondsPassed(totalSeconds)
                     clearInterval(interval)
                 } else {
-                    setTotalSecondsPassed(secondsDifference)
+                    setSecondsPassed(secondsDifference)
                 }
 
             }, 1000)
@@ -39,7 +33,19 @@ export function Countdown() {
         return () => {
             clearInterval(interval)
         }
-    }, [activeCycle, totalSeconds])
+    }, [activeCycle, totalSeconds, activeCycleId, setCurrentCycleAsFinished, setSecondsPassed])
+
+    const currentSeconds = activeCycle ? totalSeconds - totalSecondsPassed : 0
+    const remainingMinutes = Math.floor(currentSeconds / 60)
+    const remainingSeconds = currentSeconds % 60
+    const minutes = String(remainingMinutes).padStart(2, '0')
+    const seconds = String(remainingSeconds).padStart(2, '0')
+
+    useEffect(() => {
+        if (activeCycle) {
+            document.title = `${minutes}:${seconds}`
+        }
+    }, [minutes, seconds])
 
     return (
         <CountdownContainer>
