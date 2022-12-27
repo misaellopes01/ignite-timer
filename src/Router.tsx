@@ -5,7 +5,7 @@ import { History } from './pages/History'
 import { Home } from './pages/Home'
 
 const babyProps: BabyProps = {
-    name: 'Dawith Artur',
+    name: 'Dawith Arthur',
     codeName: 'Steve Jr',
 }
 
@@ -15,8 +15,8 @@ export function Router() {
             <Route path='/' element={<DefaultLayout />}>
                 <Route path='/' element={<Home />} />
                 <Route path='/history' element={<History />} />
-                
             </Route>
+            {/* <Route path='/baby' element={<Baby key={1} codeName={babyProps.codeName} name={babyProps.name} />} /> */}
         </Routes>
     )
 }
