@@ -1,7 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
+import { Baby, BabyProps } from './components/Baby/Index'
 import { DefaultLayout } from './layouts/DefaultLayout'
 import { History } from './pages/History'
 import { Home } from './pages/Home'
+
+const babyProps: BabyProps = {
+    name: 'Dawith Artur',
+    codeName: 'Steve Jr',
+}
 
 export function Router() {
     return (
@@ -9,6 +15,7 @@ export function Router() {
             <Route path='/' element={<DefaultLayout />}>
                 <Route path='/' element={<Home />} />
                 <Route path='/history' element={<History />} />
+                
             </Route>
         </Routes>
     )
